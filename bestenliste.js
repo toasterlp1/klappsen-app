@@ -11,7 +11,9 @@ const BL_FORMATE = {
   'millionaer': 'Wer wird Millionär',
   'bluff-quiz': 'Bluff-Quiz',
   'skribbl': 'Skribbl',
-  'gartic': 'Gartic Phone'
+  'gartic': 'Gartic Phone',
+  'ausreden': 'Ausredenkönig',
+  'stadtlandfluss': 'Stadt-Land-Fluss'
 };
 
 function bl_client(){
