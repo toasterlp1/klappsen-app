@@ -519,11 +519,26 @@ html.host, body.host{height:100%;overflow:hidden;}
   flex:1 1 auto;min-height:0;
   grid-template-rows:repeat(6,minmax(0,1fr));
 }
+/* Die Spieler-Karten dürfen die Spielfläche nicht mehr zusammenschieben,
+   sobald ein weiterer Spieler beitritt. Sie bleiben in einer horizontalen
+   Leiste und scrollen bei Bedarf, während das Board seine Höhe behält. */
 #hostView .scores{
+  position:absolute;left:0;right:0;bottom:0;z-index:20;
+  display:flex;flex-wrap:nowrap;justify-content:flex-start;align-items:flex-end;
+  overflow-x:auto;overflow-y:hidden;
   flex:0 0 auto;
-  padding:22px 20px clamp(24px,4vh,48px);gap:14px;
+  min-height:108px;
+  padding:18px 20px 26px;gap:14px;
+  scrollbar-width:thin;
 }
-#hostView .board-wrap{padding-top:26px;}
+#hostView .score-card{
+  flex:0 0 170px;
+}
+#hostView .board-wrap{
+  flex:1 1 auto;min-height:0;
+  padding-top:26px;
+  padding-bottom:118px;
+}
 #hostView .board-head h2{
   text-align:center;font-family:'Anton',sans-serif;font-style:italic;
   font-size:22px;letter-spacing:4px;color:var(--muted);
@@ -538,7 +553,9 @@ html.host, body.host{height:100%;overflow:hidden;}
   #hostView .topbar .right{position:static;justify-content:center;margin-top:10px;}
   #hostView .host-buzz{position:static;margin:12px auto 0;width:72px;height:72px;font-size:11px;}
   #hostView .turn-bar{position:static;margin:10px auto 0;max-width:none;}
-  #hostView .score-card{min-width:120px;}
+  #hostView .score-card{flex-basis:120px;min-width:120px;}
+  #hostView .scores{min-height:94px;padding:12px 12px 18px;gap:10px;}
+  #hostView .board-wrap{padding-bottom:100px;}
 }
 
 /* KLAPSEN — premium format thumbnail at the top-center */
