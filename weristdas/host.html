@@ -194,15 +194,36 @@
     .buzz-orb{width:62px;height:62px;font-size:10px;}
     .buzz-order{width:148px;}
   }
+
+/* KLAPSEN — premium format thumbnail at the top-center */
+.ka-top-logo{
+  position:fixed; left:50%; top:0; transform:translateX(-50%);
+  width:auto; height:auto; max-width:min(420px, calc(100vw - 24px));
+  max-height:clamp(100px, 16.7vh, 180px);
+  object-fit:contain; object-position:center top;
+  z-index:9999; pointer-events:none; user-select:none;
+  filter:drop-shadow(0 10px 24px rgba(0,0,0,.55));
+}
+:root{ --ka-logo-space:calc(clamp(100px, 16.7vh, 180px) + 18px); }
+@media (max-width:900px){
+  .ka-top-logo{max-width:min(300px, calc(100vw - 18px)); max-height:clamp(88px, 15vh, 120px);}
+  :root{ --ka-logo-space:calc(clamp(88px, 15vh, 120px) + 14px); }
+}
+@media (max-width:560px){
+  .ka-top-logo{max-width:260px;}
+}
+
+.stage{padding-top:var(--ka-logo-space) !important;}
+.header{display:none !important;}
 </style>
 <link rel="stylesheet" href="../responsive.css" />
 <link rel="stylesheet" href="../hintergrund-host.css" />
 <link rel="stylesheet" href="../kern-turn.css" />
 <style>:root{ --akzent-rgb: 0,229,199; --akzent2-rgb: 90,120,250; --kern-akzent: 0,229,199; --kern-akzent2: 90,120,250; }</style>
-<script src="../format-logo.js"></script>
 </head>
 <body class="host">
 <div class="stage">
+  <img class="ka-top-logo" src="./host-logo.png" alt="" aria-hidden="true">
   <div class="header">
     <div class="title">WER IST DAS?</div>
     <div class="title-rule"></div>
