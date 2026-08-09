@@ -272,6 +272,27 @@
     30%{ box-shadow:0 0 90px rgba(34,197,94,.75), inset 0 0 90px rgba(34,197,94,.25); border-color:var(--good); }
     100%{ box-shadow:0 0 44px rgba(168,85,247,.42), inset 0 0 60px rgba(168,85,247,.10); }
   }
+
+/* KLAPSEN — premium format thumbnail at the top-center */
+.ka-top-logo{
+  position:fixed; left:50%; top:0; transform:translateX(-50%);
+  width:auto; height:auto; max-width:min(420px, calc(100vw - 24px));
+  max-height:clamp(100px, 16.7vh, 180px);
+  object-fit:contain; object-position:center top;
+  z-index:9999; pointer-events:none; user-select:none;
+  filter:drop-shadow(0 10px 24px rgba(0,0,0,.55));
+}
+:root{ --ka-logo-space:calc(clamp(100px, 16.7vh, 180px) + 18px); }
+@media (max-width:900px){
+  .ka-top-logo{max-width:min(300px, calc(100vw - 18px)); max-height:clamp(88px, 15vh, 120px);}
+  :root{ --ka-logo-space:calc(clamp(88px, 15vh, 120px) + 14px); }
+}
+@media (max-width:560px){
+  .ka-top-logo{max-width:260px;}
+}
+
+.jokers{margin-top:calc(22px + var(--ka-logo-space)) !important;}
+.top .logo{visibility:hidden !important;}
 </style>
 <link rel="stylesheet" href="../responsive.css" />
 <link rel="stylesheet" href="../hintergrund-host.css" />
@@ -310,9 +331,9 @@
   /* Inhalt ueber dem Punkte-Raster */
   .stage > *{ position:relative; z-index:1; }
 </style>
-<script src="../format-logo.js"></script>
 </head>
 <body class="host">
+  <img class="ka-top-logo" src="./host-logo.png" alt="" aria-hidden="true">
 
   <div class="top">
     <div class="logo">?WWM<span>?</span></div>
