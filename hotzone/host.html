@@ -214,17 +214,38 @@
 
   @keyframes riseIn{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
   @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;}}
+
+/* KLAPSEN — premium format thumbnail at the top-center */
+.ka-top-logo{
+  position:fixed; left:50%; top:0; transform:translateX(-50%);
+  width:auto; height:auto; max-width:min(420px, calc(100vw - 24px));
+  max-height:clamp(100px, 16.7vh, 180px);
+  object-fit:contain; object-position:center top;
+  z-index:9999; pointer-events:none; user-select:none;
+  filter:drop-shadow(0 10px 24px rgba(0,0,0,.55));
+}
+:root{ --ka-logo-space:calc(clamp(100px, 16.7vh, 180px) + 18px); }
+@media (max-width:900px){
+  .ka-top-logo{max-width:min(300px, calc(100vw - 18px)); max-height:clamp(88px, 15vh, 120px);}
+  :root{ --ka-logo-space:calc(clamp(88px, 15vh, 120px) + 14px); }
+}
+@media (max-width:560px){
+  .ka-top-logo{max-width:260px;}
+}
+
+.stage{padding-top:var(--ka-logo-space) !important;}
+.header{display:none !important;}
 </style>
 <link rel="stylesheet" href="../responsive.css" />
 <link rel="stylesheet" href="../hintergrund-host.css" />
 <style>:root{ --akzent-rgb: 255,120,40; --akzent2-rgb: 220,40,60; }</style>
-<script src="../format-logo.js"></script>
 </head>
 <body class="host">
 <div class="orbs" aria-hidden="true"><span class="o1"></span><span class="o2"></span><span class="o3"></span></div>
 <div class="embers" id="embers" aria-hidden="true"></div>
 
 <div class="stage">
+  <img class="ka-top-logo" src="./host-logo.png" alt="" aria-hidden="true">
   <div class="header">
     <svg class="logo-gauge" viewBox="0 0 64 64" aria-hidden="true">
       <defs>
