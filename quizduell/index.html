@@ -531,6 +531,48 @@ html.host, body.host{height:100%;overflow:hidden;}
 #hostView .board-head{justify-content:center;}
 #hostView .score-card{min-width:170px;}
 
+/* Quizduell-Board: feste, grosszügige Fläche statt zusammengestauchter Zeilen.
+   Die Host-Ansicht darf das Board nicht zugunsten der Score-Karten schrumpfen. */
+#hostView .board-wrap{
+  flex:0 0 clamp(400px,44vh,480px);
+  height:clamp(400px,44vh,480px);
+  min-height:400px;
+  padding-top:22px;
+  padding-bottom:0;
+}
+#hostView .board-wrap .grid{
+  flex:1 1 auto;
+  min-height:0;
+  height:100%;
+  grid-template-rows:repeat(6,minmax(0,1fr));
+  gap:10px;
+}
+#hostView .cat-head{
+  min-height:0;
+  padding:12px 10px;
+  font-size:15px;
+}
+#hostView .cell{
+  min-height:0;
+  padding:12px 8px;
+  font-size:34px;
+}
+#hostView .scores{
+  flex:0 0 auto;
+  position:relative;
+  z-index:2;
+  padding:18px 20px clamp(22px,3vh,38px);
+}
+
+@media(max-height:760px) and (min-width:901px){
+  #hostView .board-wrap{
+    flex-basis:380px;
+    height:380px;
+    min-height:380px;
+  }
+  #hostView .cell{font-size:30px;}
+}
+
 @media(max-width:900px){
   #hostView .topbar{padding:14px 12px 0;}
   #hostView .topbar .brand{font-size:34px;}
