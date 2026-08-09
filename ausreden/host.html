@@ -257,16 +257,37 @@
     text-transform:uppercase;color:var(--muted);
   }
   .warten .big{font-family:var(--font-display);font-size:calc(3.4 * var(--u));}
+
+/* KLAPSEN — premium format thumbnail at the top-center */
+.ka-top-logo{
+  position:fixed; left:50%; top:0; transform:translateX(-50%);
+  width:auto; height:auto; max-width:min(420px, calc(100vw - 24px));
+  max-height:clamp(100px, 16.7vh, 180px);
+  object-fit:contain; object-position:center top;
+  z-index:9999; pointer-events:none; user-select:none;
+  filter:drop-shadow(0 10px 24px rgba(0,0,0,.55));
+}
+:root{ --ka-logo-space:calc(clamp(100px, 16.7vh, 180px) + 18px); }
+@media (max-width:900px){
+  .ka-top-logo{max-width:min(300px, calc(100vw - 18px)); max-height:clamp(88px, 15vh, 120px);}
+  :root{ --ka-logo-space:calc(clamp(88px, 15vh, 120px) + 14px); }
+}
+@media (max-width:560px){
+  .ka-top-logo{max-width:260px;}
+}
+
+.stage{padding-top:var(--ka-logo-space) !important;}
+.stage > .head{display:none !important;}
 </style>
 <link rel="stylesheet" href="../responsive.css" />
 <link rel="stylesheet" href="../hintergrund-host.css" />
 <style>:root{ --akzent-rgb: 61,220,132; --akzent2-rgb: 35,150,220; }</style>
-<script src="../format-logo.js"></script>
 </head>
 <body class="host">
 
 <div class="orbs"><span class="o1"></span><span class="o2"></span><span class="o3"></span></div>
 <div class="stage" id="stage">
+  <img class="ka-top-logo" src="./host-logo.png" alt="" aria-hidden="true">
   <div class="warten"><div class="small">Ausredenkönig</div><div class="big">Warte auf Runde…</div></div>
 </div>
 
