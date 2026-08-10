@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<title>Klapsen — Bilder-Helper</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@500;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0e1a; --panel:#12172a; --panel-border:#232b45;
+    --ink:#eef1f8; --muted:#8890a4; --gold:#d4af37; --gold-dim:#8a7328;
+    --good:#3ddc84; --bad:#ff3860;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Manrope',sans-serif;min-height:100vh;padding:28px 20px 60px;}
+  h1{font-family:'Bebas Neue',sans-serif;letter-spacing:1px;font-size:34px;margin:0 0 4px;color:var(--gold);}
+  .sub{color:var(--muted);font-size:14px;margin-bottom:24px;}
+  .tabs{display:flex;gap:8px;margin-bottom:20px;}
+  .tab{padding:10px 18px;border-radius:10px;background:var(--panel);border:1px solid var(--panel-border);cursor:pointer;font-weight:800;font-size:14px;color:var(--muted);}
+  .tab.active{color:var(--gold);border-color:var(--gold-dim);background:#1a1508;}
+  .card{background:var(--panel);border:1px solid var(--panel-border);border-radius:14px;padding:20px;margin-bottom:18px;}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;}
+  .field{flex:1;min-width:200px;}
+  label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+  input{width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--panel-border);background:#0e1322;color:var(--ink);font-family:'Space Mono',monospace;font-size:13px;}
+  input:focus{outline:2px solid var(--gold-dim);}
+  .btnrow{display:flex;gap:8px;flex-wrap:wrap;}
+  button{border:none;border-radius:8px;padding:10px 16px;font-weight:800;font-size:13px;cursor:pointer;font-family:'Manrope',sans-serif;}
+  .btn-search{background:#1c2440;color:var(--ink);}
+  .btn-add{background:var(--gold);color:#151008;}
+  .btn-ghost{background:transparent;border:1px solid var(--panel-border);color:var(--muted);}
+  .btn-danger{background:transparent;border:1px solid var(--bad);color:var(--bad);}
+  ul{list-style:none;padding:0;margin:0;}
+  li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--panel-border);border-radius:8px;margin-bottom:8px;font-family:'Space Mono',monospace;font-size:12px;background:#0e1322;}
+  li span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .count{color:var(--gold);font-family:'Space Mono',monospace;font-size:13px;margin-bottom:10px;}
+  pre{background:#05070d;border:1px solid var(--panel-border);border-radius:10px;padding:14px;font-family:'Space Mono',monospace;font-size:11.5px;color:#9fe6b0;max-height:220px;overflow:auto;white-space:pre-wrap;}
+  .hint{color:var(--muted);font-size:12.5px;line-height:1.5;margin-top:-6px;margin-bottom:16px;}
+  .hidden{display:none;}
+</style>
+</head>
+<body>
+
+<h1>BILDER-HELPER</h1>
+<div class="sub">Erfasse Wer-ist-das und Morph Einträge, ohne selbst JS zu schreiben. Bild suchen → URL kopieren → einfügen → fertig.</div>
+
+<div class="tabs">
+  <div class="tab active" data-tab="weristdas">Wer ist das?</div>
+  <div class="tab" data-tab="morph">Morph</div>
+</div>
+
+<!-- WER IST DAS -->
+<div id="weristdas" class="card">
+  <div class="row">
+    <div class="field">
+      <label>Antwort (Name der Figur)</label>
+      <input id="wd-name" placeholder="z.B. Tanjiro Kamado" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="field">
+      <label>Bild-URL</label>
+      <input id="wd-url" placeholder="URL hier einfügen" />
+    </div>
+  </div>
+  <div class="btnrow">
+    <button class="btn-search" onclick="suchen('wd-name')">🔍 Bild suchen (neuer Tab)</button>
+    <button class="btn-add" onclick="addWD()">+ Eintrag hinzufügen</button>
+  </div>
+  <div class="hint">Suchen öffnet Google-Bilder in einem neuen Tab. Dort Bild anklicken → Rechtsklick → "Bildadresse kopieren" → hier einfügen.</div>
+
+  <div class="count" id="wd-count">0 Einträge</div>
+  <ul id="wd-list"></ul>
+
+  <div class="btnrow" style="margin-top:14px;">
+    <button class="btn-ghost" onclick="copyCode('weristdas')">📋 Als Code kopieren</button>
+    <button class="btn-ghost" onclick="downloadCode('weristdas')">⬇️ bilder.js herunterladen</button>
+    <button class="btn-danger" onclick="clearList('weristdas')">Liste leeren</button>
+  </div>
+  <pre id="wd-preview"></pre>
+</div>
+
+<!-- MORPH -->
+<div id="morph" class="card hidden">
+  <div class="row">
+    <div class="field">
+      <label>Name Person/Figur A</label>
+      <input id="m-nameA" placeholder="z.B. Son Goku" />
+    </div>
+    <div class="field">
+      <label>Name Person/Figur B</label>
+      <input id="m-nameB" placeholder="z.B. John Watson" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="field">
+      <label>Bild-URL A (Original)</label>
+      <input id="m-bildA" placeholder="URL A" />
+    </div>
+    <div class="field">
+      <label>Bild-URL B (Original)</label>
+      <input id="m-bildB" placeholder="URL B" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="field">
+      <label>Morph-URL (fertig gemorphtes Bild)</label>
+      <input id="m-morph" placeholder="URL des gemorphten Bilds" />
+    </div>
+  </div>
+  <div class="btnrow">
+    <button class="btn-search" onclick="suchen('m-nameA')">🔍 A suchen</button>
+    <button class="btn-search" onclick="suchen('m-nameB')">🔍 B suchen</button>
+    <button class="btn-add" onclick="addMorph()">+ Eintrag hinzufügen</button>
+  </div>
+  <div class="hint">Für das Morph-Bild selbst: Namen/Bilder A+B suchen, dann in einem Face-Morph-Tool (z.B. FaceApp, oder ein Morph-Generator wie ImgOnline/Reface-Tools) mischen, Ergebnis hochladen (z.B. imgur.com) und Link hier einfügen.</div>
+
+  <div class="count" id="m-count">0 Einträge</div>
+  <ul id="m-list"></ul>
+
+  <div class="btnrow" style="margin-top:14px;">
+    <button class="btn-ghost" onclick="copyCode('morph')">📋 Als Code kopieren</button>
+    <button class="btn-ghost" onclick="downloadCode('morph')">⬇️ morphs.js herunterladen</button>
+    <button class="btn-danger" onclick="clearList('morph')">Liste leeren</button>
+  </div>
+  <pre id="m-preview"></pre>
+</div>
+
+<script>
+let wdEntries = [];
+let mEntries = [];
+
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('weristdas').classList.toggle('hidden', tab.dataset.tab !== 'weristdas');
+    document.getElementById('morph').classList.toggle('hidden', tab.dataset.tab !== 'morph');
+  });
+});
+
+function esc(s){ return (s||'').replace(/\\/g,'\\\\').replace(/"/g,'\\"'); }
+
+function suchen(fieldId){
+  const q = document.getElementById(fieldId).value.trim();
+  if(!q){ alert('Bitte zuerst einen Namen eingeben.'); return; }
+  window.open('https://www.google.com/search?tbm=isch&q=' + encodeURIComponent(q), '_blank');
+}
+
+function addWD(){
+  const name = document.getElementById('wd-name').value.trim();
+  const url = document.getElementById('wd-url').value.trim();
+  if(!name || !url){ alert('Name und Bild-URL werden benötigt.'); return; }
+  wdEntries.push({ name, url });
+  document.getElementById('wd-name').value = '';
+  document.getElementById('wd-url').value = '';
+  document.getElementById('wd-name').focus();
+  renderWD();
+}
+
+function addMorph(){
+  const nameA = document.getElementById('m-nameA').value.trim();
+  const nameB = document.getElementById('m-nameB').value.trim();
+  const bildA = document.getElementById('m-bildA').value.trim();
+  const bildB = document.getElementById('m-bildB').value.trim();
+  const morph = document.getElementById('m-morph').value.trim();
+  if(!nameA || !nameB || !bildA || !bildB || !morph){ alert('Alle 5 Felder werden benötigt.'); return; }
+  mEntries.push({ nameA, nameB, bildA, bildB, morph });
+  ['m-nameA','m-nameB','m-bildA','m-bildB','m-morph'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('m-nameA').focus();
+  renderMorph();
+}
+
+function renderWD(){
+  const list = document.getElementById('wd-list');
+  list.innerHTML = '';
+  wdEntries.forEach((e, i) => {
+    const li = document.createElement('li');
+    li.innerHTML = '<span>' + esc(e.name) + '</span><button class="btn-danger" onclick="removeWD(' + i + ')">✕</button>';
+    list.appendChild(li);
+  });
+  document.getElementById('wd-count').textContent = wdEntries.length + ' Einträge';
+  document.getElementById('wd-preview').textContent = buildWDCode();
+}
+
+function renderMorph(){
+  const list = document.getElementById('m-list');
+  list.innerHTML = '';
+  mEntries.forEach((e, i) => {
+    const li = document.createElement('li');
+    li.innerHTML = '<span>' + esc(e.nameA) + ' × ' + esc(e.nameB) + '</span><button class="btn-danger" onclick="removeMorph(' + i + ')">✕</button>';
+    list.appendChild(li);
+  });
+  document.getElementById('m-count').textContent = mEntries.length + ' Einträge';
+  document.getElementById('m-preview').textContent = buildMorphCode();
+}
+
+function removeWD(i){ wdEntries.splice(i,1); renderWD(); }
+function removeMorph(i){ mEntries.splice(i,1); renderMorph(); }
+
+function buildWDCode(){
+  let out = 'const BILDER = [\n';
+  wdEntries.forEach(e => {
+    out += '  { url: "' + esc(e.url) + '", antwort: "' + esc(e.name) + '" },\n';
+  });
+  out += '];\n';
+  return out;
+}
+
+function buildMorphCode(){
+  let out = 'const MORPHS = [\n';
+  mEntries.forEach(e => {
+    out += '  { morph: "' + esc(e.morph) + '", bildA: "' + esc(e.bildA) + '", bildB: "' + esc(e.bildB) + '", nameA: "' + esc(e.nameA) + '", nameB: "' + esc(e.nameB) + '" },\n';
+  });
+  out += '];\n';
+  return out;
+}
+
+function copyCode(which){
+  const code = which === 'weristdas' ? buildWDCode() : buildMorphCode();
+  navigator.clipboard.writeText(code).then(() => alert('Code kopiert!'));
+}
+
+function downloadCode(which){
+  const code = which === 'weristdas' ? buildWDCode() : buildMorphCode();
+  const filename = which === 'weristdas' ? 'bilder.js' : 'morphs.js';
+  const blob = new Blob([code], { type: 'text/javascript' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+}
+
+function clearList(which){
+  if(!confirm('Liste wirklich leeren?')) return;
+  if(which === 'weristdas'){ wdEntries = []; renderWD(); }
+  else { mEntries = []; renderMorph(); }
+}
+
+renderWD();
+renderMorph();
+</script>
+</body>
+</html>
