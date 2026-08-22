@@ -9,7 +9,7 @@ const AVATARE = {
   "smöökinghigh": "https://cdn.discordapp.com/avatars/1176925420071956672/8baa6d927b244b833fb52e57115a2710.webp?size=256",
   "mistertöby": "https://cdn.discordapp.com/avatars/574983072542621707/bafb596ce29b3555a273205443eca567.webp?size=256",
   "införnäl": "https://cdn.discordapp.com/avatars/428143445836824576/e359f86e8c6ee217a286c5d2b4b147e4.webp?size=256",
-  "töster": "https://cdn.discordapp.com/avatars/809064080790388788/c35e2e93adb83e54de9b308fe5a37c9a.webp?size=256"
+  "töster": "https://cdn.discordapp.com/avatars/809064080790388788/8c088c420cdff513bf50238c233f451a.webp?size=256"
 };
 function avatarFor(name){
   return AVATARE[name] || null;
